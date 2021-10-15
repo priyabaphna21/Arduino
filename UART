@@ -1,0 +1,44 @@
+//transmit
+
+int button=12;
+int ctb=0;
+int lastb=0;
+int ledState=0;
+void setup() {
+pinMode(button, INPUT);
+Serial.begin(9600);
+}
+  
+void loop() {
+  ctb=digitalRead(button);
+if(ctb== 1 && lastb== 0)
+{
+  ledState= !ledState;
+  }
+ if(ledState== 1)
+   Serial.write('1');
+  else
+    Serial.write('0');
+  Serial.flush();
+ lastb=ctb;
+}
+
+
+//receive
+
+int ledPin=7;
+int led;
+void setup()
+{
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+}
+void loop()
+{
+  if(Serial.available()>0)
+  {
+  led=Serial.read()-'0';
+  digitalWrite(ledPin,led);
+    Serial.flush();
+  }
+}
